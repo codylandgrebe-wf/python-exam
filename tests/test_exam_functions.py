@@ -1,12 +1,11 @@
 import unittest
-from class_exam.exam_functions import read_list
+from class_exam.exam_functions import ClassList
 from class_exam.exam_functions import list_from_file
-from class_exam.exam_functions import rearrange_list
 import mock
 from mock import call
 
 
-class TestListFromFile(unittest.TestCase):
+class TestListFromFile(unittest.TestCase, ClassList):
 
     @mock.patch('__builtin__.open')
     def test_read_file(self, open_mock):
@@ -23,7 +22,7 @@ class TestListFromFile(unittest.TestCase):
         self.assertEqual(output, "You're in the wrong directory.")
 
 
-class TestReadList(unittest.TestCase):
+class TestReadList(unittest.TestCase, ClassList):
 
     def setUp(self):
         self.list_of_users = ['user_1', 'user_2', 'user_3', 'user_4']
@@ -43,7 +42,7 @@ class TestReadList(unittest.TestCase):
     @mock.patch('sys.stdout.write')
     def test_read_user_not_found(self, print_mock, raw_mock):
         raw_mock.return_value = 'user_5'
-        output = read_list(self.list_of_users)
+        output = ClassList.read_list(self.list_of_users)
         print_mock.assert_has_calls([call("You're not on the list, user_5"),
                                      call('\n')])
         self.assertEqual(output, ('user_5', False))
@@ -59,3 +58,11 @@ class TestRearrangeList(unittest.TestCase):
         new_list = ['user_3', 'user_1', 'user_2', 'user_4']
         output = rearrange_list('user_3', user_list)
         self.assertEqual(output, new_list)
+
+
+class TestModifyList(unittest.TestCase):
+
+    @mock.patch('__builtin__.raw_input')
+    def modify_list_remove(self, raw_mock):
+        raw_mock.return_value = "Remove"
+
