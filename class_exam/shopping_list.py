@@ -1,8 +1,8 @@
 class ShoppingList():
     def __init__(self, items):
         self.items = items
-#testing
-    def show_list(self):
+
+    def show_List(self):
         list_width = max(len(s) for s in self.items)
         list_divider = "-" * (list_width + 2)
         print "My Shopping List:"
